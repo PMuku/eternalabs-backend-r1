@@ -1,6 +1,7 @@
 import Redis from "ioredis";
 import { LRUCache } from "lru-cache";
 import config from "../config.js";
+import { trackMemoryKey } from "./keyScanner.js";
 
 let redis = null;
 if (config.REDIS_URL) {
@@ -34,5 +35,6 @@ export async function setCache(key, value, ttl = config.CACHE_TTL_MS) {
     await redis.set(key, JSON.stringify(value), "EX", ttl_s);
   } else {
     memoryCache.set(key, value, { ttl });
+    trackMemoryKey(key);
   }
 }

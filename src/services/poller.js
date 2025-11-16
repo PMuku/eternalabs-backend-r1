@@ -15,7 +15,7 @@ const TRACKED_TOKENS = [
 async function pollDexScreener() {
   try {
     const tokens = await fetchDexScreener("sol");
-    await upsertTokensFromSource(tokens);
+    await upsertTokensFromSource(tokens, "dexscreener");
     console.log("[Poller] DexScreener updated", tokens.length);
   } catch (err) {
     console.error("[Poller] DexScreener error:", err.message);
@@ -29,7 +29,7 @@ async function pollGeckoTerminal() {
 
     for (const mint of TRACKED_TOKENS) {
       const tokens = await fetchGeckoToken("solana", mint);
-      await upsertTokensFromSource(tokens);
+      await upsertTokensFromSource(tokens, "geckoterminal");
       total += tokens.length;
     }
 
