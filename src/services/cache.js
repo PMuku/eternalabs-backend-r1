@@ -1,5 +1,5 @@
 import Redis from "ioredis";
-import LRU from "lru-cache";
+import { LRUCache } from "lru-cache";
 import config from "../config.js";
 
 let redis = null;
@@ -14,7 +14,7 @@ if (config.REDIS_URL) {
 }
 
 // In-memory fallback cache using LRU
-const memoryCache = new LRU({
+const memoryCache = new LRUCache({
   max: 5000,
   ttl: config.CACHE_TTL_MS,
   allowStale: false,
